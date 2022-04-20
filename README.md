@@ -14,7 +14,16 @@ Using the UC Davis AVA dataset alongside datasets defining environmental charact
 
 UC Davis' [AVA Digitizing Project](https://github.com/UCDavisLibrary/ava)
 
+ * **Current AVA boundaries:** avas.geojson
+
 Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
+
+ * **Precipitation 30 Year Climate Normals:** PRISM_ppt_30yr_normal_800mM3_annual_bil.bil
+ * **Mean Temperature 30 Year Climate Normals:** PRISM_tmean_30yr_normal_800mM3_annual_bil.bil
+ * **Minimum Temperature 30 Year Climate Normals:** PRISM_tmin_30yr_normal_800mM3_annual_bil.bil
+ * **Maximum Temperature 30 Year Climate Normals:** PRISM_tmax_30yr_normal_800mM3_annual_bil.bil
+ * **Elevation:** PRISM_us_dem_800m_bil.bil
+ 
 
 ## Document Manifest
 *code* folder
