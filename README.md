@@ -6,7 +6,7 @@ This repository contains code related to Michele Tobias' 2022 [FOSS4G Academic T
 
 Using the UC Davis AVA dataset alongside datasets defining environmental characteristics such as soils, climate, and elevation, we seek to understand how the characteristics present within the AVA boundaries are similar to each other using a hierarchical clustering process.  
 
-![Alt text](cluster_example_2022-04-20.jpg "An example of results of a cluster analysis of AVA boundaries using climate variables")
+![Alt text](images/cluster_example_2022-04-20.jpg "An example of results of a cluster analysis of AVA boundaries using climate variables")
 
 **Submission Deadline:** June 1, 2022
 
