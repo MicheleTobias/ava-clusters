@@ -42,7 +42,7 @@ states<-st_read("C:\\Users\\mmtobias\\Box\\D Drive\\GIS_Data\\NaturalEarth\\ne_1
 states<-st_transform(states, "epsg:2163")
 
 #ava polygons
-data.url<-"https://raw.githubusercontent.com/UCDavisLibrary/ava/master/avas.geojson"
+data.url<-"https://raw.githubusercontent.com/UCDavisLibrary/ava/master/avas_aggregated_files/avas.geojson"
 avas<-geojson_sf(data.url)
 avas<-st_transform(avas, 2163) #2063=Albers North American Equal Area Conic
 
