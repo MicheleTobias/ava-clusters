@@ -1,6 +1,10 @@
 # Classifying American Viticultural Areas Based on Environmental Data
 
-This repository contains code related to Michele Tobias' 2022 FOSS4G Academic Track paper submission "Classifying American Viticultural Areas Based on Environmental Data".
+This repository contains code related to Michele Tobias' 2022 [FOSS4G Academic Track](https://2022.foss4g.org/cfp-academic_track.php) paper submission "Classifying American Viticultural Areas Based on Environmental Data".
+
+[ISPRS Publisher Guidelines](https://www.isprs.org/documents/orangebook/app5.aspx )
+
+**Submission Deadline:** June 1, 2022
 
 ## Data Sources
 
