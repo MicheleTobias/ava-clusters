@@ -26,12 +26,17 @@ Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
  
 ## Workflow
 
+![Alt text](images/SnakeRiverValley_DEM.jpg "Snake River AVA boundary overlayed on the PRISM elevation dataset")
+
 1. For each AVA boundary and each raster dataset:
 	1. Extract the cells that intersect the boundary.
 	1. Summarize the extracted data with the mean and range (lowest value subtracted from the highest value)
-1. For each attribute (column), calculate the z-score for each record: z=(value-mean)/sd
-1. Calculate a dissimilarity matrix
-1. Hierarchical clusters
+	
+![Alt text](images/SnakeRiverValley_DEM_Clip.jpg "The PRISM elevation dataset clipped by the Snake River AVA boundary")
+
+2. For each attribute (column), calculate the z-score for each record: z=(value-mean)/sd
+3. Calculate a dissimilarity matrix
+4. Hierarchical clusters
 
 ## Outstanding Questions
 

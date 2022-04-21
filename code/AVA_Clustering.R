@@ -200,6 +200,6 @@ grouped.avas<-cbind(avas, groups)
 group.colors<-brewer.pal(n=n.groups, name="Set1")[grouped.avas$groups]
 avas.bbox<-st_bbox(avas)
 plot(states$geometry, xlim=avas.bbox[c(1,3)], ylim=avas.bbox[c(2,4)], border="gray")
-plot(grouped.avas["groups"], col=group.colors, border=border.colors, add=TRUE)
+plot(grouped.avas["groups"], col=group.colors, border="gray", add=TRUE)
 
 st_write(obj=grouped.avas, "grouped_avas_no_area.shp")
