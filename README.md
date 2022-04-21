@@ -4,7 +4,7 @@ This repository contains code related to Michele Tobias' 2022 [FOSS4G Academic T
 
 Using the UC Davis AVA dataset alongside datasets defining environmental characteristics such as soils, climate, and elevation, we seek to understand how the characteristics present within the AVA boundaries are similar to each other using a hierarchical clustering process.  
 
-![Alt text](images/cluster_example_2022-04-20.jpg "An example of results of a cluster analysis of AVA boundaries using climate variables")
+<img src="images/cluster_example_2022-04-20.jpg" alt="An example of results of a cluster analysis of AVA boundaries using climate variables" width = 50%>
 
 [ISPRS Publisher Guidelines](https://www.isprs.org/documents/orangebook/app5.aspx )
 
@@ -26,13 +26,13 @@ Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
  
 ## Workflow
 
-![Alt text](images/SnakeRiverValley_DEM.jpg "Snake River AVA boundary overlayed on the PRISM elevation dataset")
+<img src="images/SnakeRiverValley_DEM.jpg" alt="Snake River AVA boundary overlayed on the PRISM elevation dataset" width = 30%>
 
 1. For each AVA boundary and each raster dataset:
 	1. Extract the cells that intersect the boundary.
 	1. Summarize the extracted data with the mean and range (lowest value subtracted from the highest value)
 	
-![Alt text](images/SnakeRiverValley_DEM_Clip.jpg "The PRISM elevation dataset clipped by the Snake River AVA boundary")
+<img src="images/SnakeRiverValley_DEM_Clip.jpg" alt="The PRISM elevation dataset clipped by the Snake River AVA boundary" width = 30%>
 
 2. For each attribute (column), calculate the z-score for each record: z=(value-mean)/sd
 3. Calculate a dissimilarity matrix
