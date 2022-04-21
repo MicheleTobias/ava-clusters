@@ -148,7 +148,15 @@ for (i in 1:length(avas$ava_id)){
 # Soils -------------------------------------------------------------------
 #SSURGO WMS: https://srfs.wr.usgs.gov/arcgis/rest/services/LTDL_Tool/GSSURGO_Data/MapServer 
 
+# soilDB package: http://ncss-tech.github.io/soilDB/
 
+# Soil Data Access Web Service Help 
+#  * https://sdmdataaccess.nrcs.usda.gov/ 
+#  * https://sdmdataaccess.nrcs.usda.gov/WebServiceHelp.aspx 
+
+# XPolaris package for working with POLARIS database (30m resolution) - Fills gaps in SSURGO - cc attribution-noncommercial - 
+#   * https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018WR022797 
+#   * https://github.com/cran/XPolaris
 
 
 
