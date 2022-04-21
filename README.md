@@ -48,6 +48,8 @@ Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
 *code* folder
   - `AVA_Clustering.R` - main analysis code for this paper
 
+*images* folder - a folder containing images for use in the documentation readme files on this repository
+
 `LICENSE` - license for the code
 
 `README.md` - the main informational file for the repository
