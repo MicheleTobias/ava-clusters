@@ -24,6 +24,20 @@ Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
  * **Maximum Temperature 30 Year Climate Normals:** PRISM_tmax_30yr_normal_800mM3_annual_bil.bil
  * **Elevation:** PRISM_us_dem_800m_bil.bil
  
+## Workflow
+
+1. For each AVA boundary and each raster dataset:
+	1. Extract the cells that intersect the boundary.
+	1. Summarize the extracted data with the mean and range (lowest value subtracted from the highest value)
+1. For each attribute (column), calculate the z-score for each record: z=(value-mean)/sd
+1. Calculate a dissimilarity matrix
+1. Hierarchical clusters
+
+## Outstanding Questions
+
+1. Can I incorporate categorical data such as soil series name from SSURGO into this analysis? Or does hierarchical clustering require only numerical data?
+1. The samples here are not geographically distinct - there is overlap among boundaries. Do I need to worry about lack of independence? Spatial autocorrelation?
+1. What other datasets would be interesting/useful to include?
 
 ## Document Manifest
 *code* folder
