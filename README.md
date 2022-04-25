@@ -40,8 +40,8 @@ Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
 
 ## Example Input Data for Cluster Analysis
 
-| ava_id | ppt_range | ppt_mean elev_range | elev_mean | t_range | t_mean |
-| --- | --- | --- | --- | --- | --- |
+| ava_id | ppt_range | ppt_mean | elev_range | elev_mean | t_range | t_mean |
+| --- | --- | --- | --- | --- | --- | --- |
 |adelaida_district|529.3044128|570.9880|427.2993317|420.464651|18.676187|14.856683|113|
 |alexander_valley|312.9765625|1058.9631|720.4053688|208.143084|14.719194|15.133910|214|
 |alexandria_lakes|6.5897827|673.4908|21.7002869|427.544259|10.586075|5.492186|233|
