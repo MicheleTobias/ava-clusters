@@ -4,10 +4,10 @@ This repository contains code related to Michele Tobias' 2022 [FOSS4G Academic T
 
 Using the UC Davis AVA dataset alongside datasets defining environmental characteristics such as soils, climate, and elevation, we seek to understand how the characteristics present within the AVA boundaries are similar to each other using a hierarchical clustering process.  
 
-<figure>
-<img src="images/cluster_example_2022-04-20.jpg" alt="An example of results of a cluster analysis of AVA boundaries using climate variables" width = 60%>
-<figcaption align="left">An example of results of a cluster analysis of AVA boundaries using climate variables, using 6 clusters.</figcaption>
-</figure>
+|<img src="images/cluster_example_2022-04-20.jpg" alt="An example of results of a cluster analysis of AVA boundaries using climate variables" width = 60%>|
+|:--|
+|An example of results of a cluster analysis of AVA boundaries using climate variables, using 6 clusters.|
+
 
 [ISPRS Publisher Guidelines](https://www.isprs.org/documents/orangebook/app5.aspx )
 
@@ -29,8 +29,9 @@ Using the UC Davis AVA dataset alongside datasets defining environmental charact
  
 ## Workflow
 
-<img src="images/SnakeRiverValley_DEM.jpg" alt="Snake River AVA boundary overlayed on the PRISM elevation dataset" width = 30%>
-Snake River AVA boundary overlayed on the PRISM elevation dataset.
+|<img src="images/SnakeRiverValley_DEM.jpg" alt="Snake River AVA boundary overlayed on the PRISM elevation dataset" width = 30%>|
+|---|
+|Snake River AVA boundary overlayed on the PRISM elevation dataset.|
 
 
 1. For each AVA boundary and each raster dataset:
