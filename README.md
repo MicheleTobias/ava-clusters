@@ -30,7 +30,7 @@ Using the UC Davis AVA dataset alongside datasets defining environmental charact
 ## Workflow
 
 |<img src="images/SnakeRiverValley_DEM.jpg" alt="Snake River AVA boundary overlayed on the PRISM elevation dataset" width = 30%>|
-|---|
+|:--|
 |Snake River AVA boundary overlayed on the PRISM elevation dataset.|
 
 
@@ -38,8 +38,9 @@ Using the UC Davis AVA dataset alongside datasets defining environmental charact
 	1. Extract the cells that intersect the boundary.
 	1. Summarize the extracted data with the mean and range (lowest value subtracted from the highest value)
 	
-<img src="images/SnakeRiverValley_DEM_Clip.jpg" alt="The PRISM elevation dataset clipped by the Snake River AVA boundary" width = 30%>
-The PRISM elevation dataset clipped by the Snake River AVA boundary
+|<img src="images/SnakeRiverValley_DEM_Clip.jpg" alt="The PRISM elevation dataset clipped by the Snake River AVA boundary" width = 30%>|
+|:--|
+|The PRISM elevation dataset clipped by the Snake River AVA boundary|
 
 
 2. For each attribute (column), calculate the z-score for each record: z=(value-mean)/sd
