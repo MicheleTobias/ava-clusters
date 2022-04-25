@@ -7,6 +7,7 @@ Using the UC Davis AVA dataset alongside datasets defining environmental charact
 <img src="images/cluster_example_2022-04-20.jpg" alt="An example of results of a cluster analysis of AVA boundaries using climate variables" width = 60%>
 An example of results of a cluster analysis of AVA boundaries using climate variables, using 6 clusters.
 
+
 [ISPRS Publisher Guidelines](https://www.isprs.org/documents/orangebook/app5.aspx )
 
 **Submission Deadline:** June 1, 2022
@@ -30,12 +31,14 @@ An example of results of a cluster analysis of AVA boundaries using climate vari
 <img src="images/SnakeRiverValley_DEM.jpg" alt="Snake River AVA boundary overlayed on the PRISM elevation dataset" width = 30%>
 Snake River AVA boundary overlayed on the PRISM elevation dataset.
 
+
 1. For each AVA boundary and each raster dataset:
 	1. Extract the cells that intersect the boundary.
 	1. Summarize the extracted data with the mean and range (lowest value subtracted from the highest value)
 	
 <img src="images/SnakeRiverValley_DEM_Clip.jpg" alt="The PRISM elevation dataset clipped by the Snake River AVA boundary" width = 30%>
 The PRISM elevation dataset clipped by the Snake River AVA boundary
+
 
 2. For each attribute (column), calculate the z-score for each record: z=(value-mean)/sd
 3. Calculate a dissimilarity matrix
