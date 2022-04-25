@@ -38,6 +38,16 @@ Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
 3. Calculate a dissimilarity matrix
 4. Hierarchical clusters
 
+## Example Input Data for Cluster Analysis
+
+| ava_id | ppt_range | ppt_mean elev_range | elev_mean | t_range | t_mean |
+| --- | --- | --- | --- | --- | --- |
+|adelaida_district|529.3044128|570.9880|427.2993317|420.464651|18.676187|14.856683|113|
+|alexander_valley|312.9765625|1058.9631|720.4053688|208.143084|14.719194|15.133910|214|
+|alexandria_lakes|6.5897827|673.4908|21.7002869|427.544259|10.586075|5.492186|233|
+|alisos_canyon|21.0177002|446.8349|160.3984985|293.058929|14.657202|15.484408|133|
+|alta_mesa|89.2421265|486.8235|26.1987314|19.036722|14.250541|16.345103|
+
 ## Outstanding Questions
 
 1. Can I incorporate categorical data such as soil series name from SSURGO into this analysis? Or does hierarchical clustering require only numerical data?
