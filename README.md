@@ -48,11 +48,15 @@ Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
 |alisos_canyon|21.0177002|446.8349|160.3984985|293.058929|14.657202|15.484408|133|
 |alta_mesa|89.2421265|486.8235|26.1987314|19.036722|14.250541|16.345103|
 
+260 AVAs (... actualy 259 because I had to remove Hawaii's AVA since PRISM only covers the "lower 48")
+
 ## Outstanding Questions
 
 1. Can I incorporate categorical data such as soil series name from SSURGO into this analysis? Or does hierarchical clustering require only numerical data?
 1. The samples here are not geographically distinct - there is overlap among boundaries. Do I need to worry about lack of independence? Spatial autocorrelation?
 1. What other datasets would be interesting/useful to include?
+	- Other AVA data includes the date issued, area
+	- Outside data sources?
 
 ## Document Manifest
 *code* folder
