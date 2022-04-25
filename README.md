@@ -4,7 +4,8 @@ This repository contains code related to Michele Tobias' 2022 [FOSS4G Academic T
 
 Using the UC Davis AVA dataset alongside datasets defining environmental characteristics such as soils, climate, and elevation, we seek to understand how the characteristics present within the AVA boundaries are similar to each other using a hierarchical clustering process.  
 
-<img src="images/cluster_example_2022-04-20.jpg" alt="An example of results of a cluster analysis of AVA boundaries using climate variables" width = 50%>
+<img src="images/cluster_example_2022-04-20.jpg" alt="An example of results of a cluster analysis of AVA boundaries using climate variables" width = 60%>
+An example of results of a cluster analysis of AVA boundaries using climate variables, using 6 clusters.
 
 [ISPRS Publisher Guidelines](https://www.isprs.org/documents/orangebook/app5.aspx )
 
@@ -12,11 +13,11 @@ Using the UC Davis AVA dataset alongside datasets defining environmental charact
 
 ## Data Sources
 
-UC Davis' [AVA Digitizing Project](https://github.com/UCDavisLibrary/ava)
+### UC Davis' [AVA Digitizing Project](https://github.com/UCDavisLibrary/ava)
 
  * **Current AVA boundaries:** avas.geojson
 
-Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
+### Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
 
  * **Precipitation 30 Year Climate Normals:** PRISM_ppt_30yr_normal_800mM3_annual_bil.bil
  * **Mean Temperature 30 Year Climate Normals:** PRISM_tmean_30yr_normal_800mM3_annual_bil.bil
@@ -27,12 +28,14 @@ Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
 ## Workflow
 
 <img src="images/SnakeRiverValley_DEM.jpg" alt="Snake River AVA boundary overlayed on the PRISM elevation dataset" width = 30%>
+Snake River AVA boundary overlayed on the PRISM elevation dataset.
 
 1. For each AVA boundary and each raster dataset:
 	1. Extract the cells that intersect the boundary.
 	1. Summarize the extracted data with the mean and range (lowest value subtracted from the highest value)
 	
 <img src="images/SnakeRiverValley_DEM_Clip.jpg" alt="The PRISM elevation dataset clipped by the Snake River AVA boundary" width = 30%>
+The PRISM elevation dataset clipped by the Snake River AVA boundary
 
 2. For each attribute (column), calculate the z-score for each record: z=(value-mean)/sd
 3. Calculate a dissimilarity matrix
