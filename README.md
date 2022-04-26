@@ -45,7 +45,7 @@ Using the UC Davis AVA dataset alongside datasets defining environmental charact
 
 2. For each attribute (column), calculate the z-score for each record: z=(value-mean)/sd
 3. Calculate a dissimilarity matrix
-4. Hierarchical clusters
+4. Hierarchical clusters = hclust()
 
 ## Example Input Data for Cluster Analysis
 
@@ -59,7 +59,7 @@ Using the UC Davis AVA dataset alongside datasets defining environmental charact
 
 260 AVAs (... actualy 259 because I had to remove Hawaii's AVA since PRISM only covers the "lower 48")
 
-## Outstanding Questions
+## Questions
 
 1. Can I incorporate categorical data such as soil series name from SSURGO into this analysis? Or does hierarchical clustering require only numerical data?
 1. The samples here are not geographically distinct - there is overlap among boundaries. Do I need to worry about lack of independence? Spatial autocorrelation?
