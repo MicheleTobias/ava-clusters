@@ -4,6 +4,8 @@ This repository contains code related to Michele Tobias' 2022 [FOSS4G Academic T
 
 Using the UC Davis AVA dataset alongside datasets defining environmental characteristics such as soils, climate, and elevation, we seek to understand how the characteristics present within the AVA boundaries are similar to each other using a hierarchical clustering process.  
 
+AVAs are supposed to be based on the climate, geology, soils, physical features (such as topography), and elevation (Bureau of Alcohol, Tobacco & Firearms 1980).
+
 |<img src="images/cluster_example_2022-04-20.jpg" alt="An example of results of a cluster analysis of AVA boundaries using climate variables" width = 60%>|
 |:--|
 |An example of results of a cluster analysis of AVA boundaries using climate variables, using 6 clusters.|
@@ -26,6 +28,12 @@ Using the UC Davis AVA dataset alongside datasets defining environmental charact
  * **Minimum Temperature 30 Year Climate Normals:** PRISM_tmin_30yr_normal_800mM3_annual_bil.bil
  * **Maximum Temperature 30 Year Climate Normals:** PRISM_tmax_30yr_normal_800mM3_annual_bil.bil
  * **Elevation:** PRISM_us_dem_800m_bil.bil
+
+### Soils/Geology
+SSURGO or it's derivatives?
+
+### Topography/Elevation
+See PRISM data.
  
 ## Workflow
 
@@ -79,5 +87,8 @@ Using the UC Davis AVA dataset alongside datasets defining environmental charact
 
 ## License
 This repository is [licensed](LICENSE) under the Apache 2.0 License.
+
+## Citations
+Bureau of Alcohol, Tobacco & Firearms (1980) AVA petition requirements; Title 27, Part 9 Federal Register April 1, 1980.
 
 
