@@ -210,4 +210,4 @@ avas.bbox<-st_bbox(avas)
 plot(states$geometry, xlim=avas.bbox[c(1,3)], ylim=avas.bbox[c(2,4)], border="gray")
 plot(grouped.avas["groups"], col=group.colors, border="gray", add=TRUE)
 
-st_write(obj=grouped.avas, "grouped_avas_no_area.shp")
+st_write(obj=grouped.avas, "grouped_avas_no_area.shp", append = FALSE)
