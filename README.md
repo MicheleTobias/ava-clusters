@@ -32,6 +32,17 @@ AVAs are supposed to be based on the climate, geology, soils, physical features 
 ### Soils/Geology
 SSURGO or it's derivatives?
 
+soilDB package: http://ncss-tech.github.io/soilDB/
+
+Soil Data Access Web Service Help 
+  * https://sdmdataaccess.nrcs.usda.gov/ 
+  * https://sdmdataaccess.nrcs.usda.gov/WebServiceHelp.aspx 
+
+XPolaris package for working with POLARIS database (30m resolution) - Fills gaps in SSURGO - cc attribution-noncommercial - 
+  * https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018WR022797 
+  * https://github.com/cran/XPolaris
+
+
 ### Topography/Elevation
 See PRISM data.
  
