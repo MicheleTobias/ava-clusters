@@ -17,11 +17,16 @@ AVAs are supposed to be based on the climate, geology, soils, physical features 
 
 ## Data Sources
 
-### UC Davis' [AVA Digitizing Project](https://github.com/UCDavisLibrary/ava)
+
+### AVAs
+
+UC Davis' [AVA Digitizing Project](https://github.com/UCDavisLibrary/ava)
 
  * **Current AVA boundaries:** avas.geojson
 
-### Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
+### Climate Data
+
+Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
 
  * **Precipitation 30 Year Climate Normals:** PRISM_ppt_30yr_normal_800mM3_annual_bil.bil
  * **Mean Temperature 30 Year Climate Normals:** PRISM_tmean_30yr_normal_800mM3_annual_bil.bil
@@ -30,21 +35,13 @@ AVAs are supposed to be based on the climate, geology, soils, physical features 
  * **Elevation:** PRISM_us_dem_800m_bil.bil
 
 ### Soils/Geology
-SSURGO or it's derivatives?
-
-soilDB package: http://ncss-tech.github.io/soilDB/
-
-Soil Data Access Web Service Help 
-  * https://sdmdataaccess.nrcs.usda.gov/ 
-  * https://sdmdataaccess.nrcs.usda.gov/WebServiceHelp.aspx 
-
-XPolaris package for working with POLARIS database (30m resolution) - Fills gaps in SSURGO - cc attribution-noncommercial - 
-  * https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018WR022797 
-  * https://github.com/cran/XPolaris
 
 
 ### Topography/Elevation
-See PRISM data.
+
+Oregon State University's [PRISM Climate Data](https://prism.oregonstate.edu/)
+
+ * **Elevation:** PRISM_us_dem_800m_bil.bil
  
 ## Workflow
 
