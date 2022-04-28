@@ -48,6 +48,14 @@ ava.test<-avas[which(avas$ava_id=="capay_valley"),]
 tiles<-poly.degree[which(lengths(st_intersects(x=poly.degree, y=ava.test))>0),]
 
 centroids<-st_centroid(tiles)
+centroids<-st_transform(centroids, crs=4326)
+
+locations.table<-cbind.data.frame(
+  letters[1:dim(centroids)[1]], #make up an ID... just a letter
+  st_coordinates(centroids)[2], #lat is in the 2 spot
+  st_coordinates(centroids)[1]) #long is in the first spot
+names(locations.table)<-c("ID", "lat", "long")
+
 
 #checking that the results make sense visually
 plot(tiles$geometry)
@@ -57,7 +65,15 @@ plot(ava.test$geometry, add=TRUE, col="light green", border="dark green")
 plot(centroids, add=TRUE, col="dark orange")
 
 #download the data
-ximages(locations = exkansas,
+df_images<-ximages(locations = locations.table,
         statistics = c('mean'),
         variables = c('sand','silt','clay'),
         layersdepths = c('0_5','5_15','15_30'))
+
+xsoil(ximages_output = df_images)
+
+test.raster<-rast(df_images$local_file[1])
+ava.test.4326<-st_transform(ava.test, 4326)
+
+plot(test.raster, main="Mean Sand, 0-5 cm")
+plot(ava.test.4326$geometry, add=TRUE)
