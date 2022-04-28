@@ -45,16 +45,24 @@ poly.degree<-st_transform(poly.degree, crs=2163)
 
 ava.test<-avas[which(avas$ava_id=="capay_valley"),]
 
-tiles<-poly.degree[which(lengths(st_intersects(x=poly.degree, y=ava.test))>0),]
+xlocations <- function(grid, polygon){
+  tiles<-poly.degree[which(lengths(st_intersects(x=grid, y=polygon))>0),]
+  
+  centroids<-st_centroid(tiles)
+  centroids<-st_transform(centroids, crs=4326)
+  
+  locations.table<-cbind.data.frame(
+    letters[1:dim(centroids)[1]], #make up an ID... just a letter
+    st_coordinates(centroids)[2], #lat is in the 2 spot
+    st_coordinates(centroids)[1]) #long is in the first spot
+  names(locations.table)<-c("ID", "lat", "long")
+  
+  return(locations.table)
+}
 
-centroids<-st_centroid(tiles)
-centroids<-st_transform(centroids, crs=4326)
+xlocations(poly.degree, ava.test)
 
-locations.table<-cbind.data.frame(
-  letters[1:dim(centroids)[1]], #make up an ID... just a letter
-  st_coordinates(centroids)[2], #lat is in the 2 spot
-  st_coordinates(centroids)[1]) #long is in the first spot
-names(locations.table)<-c("ID", "lat", "long")
+
 
 
 #checking that the results make sense visually
