@@ -10,12 +10,17 @@ library(lubridate)
 #library(prism)     #for downloading PRISM data
 library(terra)
 library(RColorBrewer)
-library(XPolaris)
+library(XPolaris)   #for downloading Polaris (interpolated SSURGO) data
 
 #working directory
 setwd("C:\\Users\\mmtobias\\Box\\Documents\\Publications\\AVA_Clusters\\data")
 
-#read the data
+
+# Custom Functions --------------------------------------------------------
+
+
+
+# Read the Data -----------------------------------------------------------
 
 #PRISM data
 #___ precipitation ___
