@@ -102,4 +102,10 @@ images<-ximages(image.points,
                 localPath = "D:/Data_AVA_Clusters") #images were originally stored in C:\\Users\\mmtobias\\AppData\\Local\\Temp\\Rtmp6LliSp/POLARISOut/ 
 
 # put the images in a folder into a vrt
+clay.05.files<-as.list(list.files("D:/Data_AVA_Clusters/POLARISOut/mean/clay/0_5"))
 
+setwd("D:/Data_AVA_Clusters/POLARISOut/mean/clay/0_5")
+
+gdalUtils::gdalbuildvrt(gdalfile=clay.05.files, output.vrt = "D:/Data_AVA_Clusters/vrt/clay_05.vrt")
+
+plot(rast("D:/Data_AVA_Clusters/vrt/clay_05.vrt"))
