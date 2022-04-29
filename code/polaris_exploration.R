@@ -85,3 +85,21 @@ ava.test.4326<-st_transform(ava.test, 4326)
 
 plot(test.raster, main="Mean Sand, 0-5 cm")
 plot(ava.test.4326$geometry, add=TRUE)
+
+
+
+#----------------------------------------------------
+library(gdalUtils)
+
+avas<-avas[2:4,]
+
+image.points<-xlocations(grid, avas)
+
+images<-ximages(image.points,
+                statistics = c('mean'),
+                variables = c('sand','silt','clay'),
+                layersdepths = c('0_5','5_15','15_30'),
+                localPath = "D:/Data_AVA_Clusters")
+# put the images in a folder into a vrt
+
+#images were stored in C:\\Users\\mmtobias\\AppData\\Local\\Temp\\Rtmp6LliSp/POLARISOut/ 
