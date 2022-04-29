@@ -211,9 +211,16 @@ for (i in 1:length(avas$ava_id)){
 avas<-avas[2:4,] # !!! remove later
     
 for (i in 1:nrow(avas)){
+  
+  #set up the locations table
   print(avas$name[i])
   image.points<-xlocations(grid=grid, polygon = avas[i,])
   print(image.points)
+  
+  #wait a random time to avoid looking like a DOS attack
+  #t<-sample(3:30, 1, replace=TRUE) #a uniform distribution
+  t<-abs(rnorm(1, mean=10, sd=3)) #pick a number from a normal distribution, abs() to make sure it's non negative
+  Sys.sleep(t)
 }
 
 
