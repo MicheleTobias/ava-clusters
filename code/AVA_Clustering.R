@@ -203,13 +203,17 @@ for (i in 1:length(avas$ava_id)){
 
     #turn the raster into polygons and set the CRS to match the AVAs
     poly.degree<-st_as_sf(as.polygons(rast.degree))
-    poly.degree<-st_transform(poly.degree, crs=2163)
+    grid<-st_transform(poly.degree, crs=2163)
 
     
 # For each AVA, set up the Polaris locations table
+
+avas<-avas[2:4,] # !!! remove later
+    
 for (i in 1:nrow(avas)){
   print(avas$name[i])
-  
+  image.points<-xlocations(grid=grid, polygon = avas[i,])
+  print(image.points)
 }
 
 
