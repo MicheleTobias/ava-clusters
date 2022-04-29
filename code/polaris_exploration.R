@@ -99,7 +99,7 @@ images<-ximages(image.points,
                 statistics = c('mean'),
                 variables = c('sand','silt','clay'),
                 layersdepths = c('0_5','5_15','15_30'),
-                localPath = "D:/Data_AVA_Clusters")
+                localPath = "D:/Data_AVA_Clusters") #images were originally stored in C:\\Users\\mmtobias\\AppData\\Local\\Temp\\Rtmp6LliSp/POLARISOut/ 
+
 # put the images in a folder into a vrt
 
-#images were stored in C:\\Users\\mmtobias\\AppData\\Local\\Temp\\Rtmp6LliSp/POLARISOut/ 
