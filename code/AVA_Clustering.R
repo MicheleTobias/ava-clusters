@@ -174,17 +174,43 @@ for (i in 1:length(avas$ava_id)){
 
 
 # Soils -------------------------------------------------------------------
-#SSURGO WMS: https://srfs.wr.usgs.gov/arcgis/rest/services/LTDL_Tool/GSSURGO_Data/MapServer 
+    #SSURGO WMS: https://srfs.wr.usgs.gov/arcgis/rest/services/LTDL_Tool/GSSURGO_Data/MapServer 
+    
+    # soilDB package: http://ncss-tech.github.io/soilDB/
+    
+    # Soil Data Access Web Service Help 
+    #  * https://sdmdataaccess.nrcs.usda.gov/ 
+    #  * https://sdmdataaccess.nrcs.usda.gov/WebServiceHelp.aspx 
+    
+    # XPolaris package for working with POLARIS database (30m resolution) - Fills gaps in SSURGO - cc attribution-noncommercial - 
+    #   * https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018WR022797 
+    #   * https://github.com/cran/XPolaris
 
-# soilDB package: http://ncss-tech.github.io/soilDB/
+# Create the Polaris 1 degree grid
+    #create a 1 degree raster
+    xmax<- -65
+    xmin<- -125
+    ymax<- 50
+    ymin<-24
+    rast.degree<-rast(
+      ncol=(xmax-xmin), 
+      nrow=(ymax-ymin),
+      xmin=xmin,
+      xmax=xmax,
+      ymin=ymin,
+      ymax=ymax
+    )
 
-# Soil Data Access Web Service Help 
-#  * https://sdmdataaccess.nrcs.usda.gov/ 
-#  * https://sdmdataaccess.nrcs.usda.gov/WebServiceHelp.aspx 
+    #turn the raster into polygons and set the CRS to match the AVAs
+    poly.degree<-st_as_sf(as.polygons(rast.degree))
+    poly.degree<-st_transform(poly.degree, crs=2163)
 
-# XPolaris package for working with POLARIS database (30m resolution) - Fills gaps in SSURGO - cc attribution-noncommercial - 
-#   * https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018WR022797 
-#   * https://github.com/cran/XPolaris
+    
+# For each AVA, set up the Polaris locations table
+for (i in 1:nrow(avas)){
+  print(avas$name[i])
+  
+}
 
 
 
