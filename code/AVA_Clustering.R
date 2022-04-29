@@ -18,7 +18,29 @@ setwd("C:\\Users\\mmtobias\\Box\\Documents\\Publications\\AVA_Clusters\\data")
 
 # Custom Functions --------------------------------------------------------
 
-
+# FUNCTION: xlocations()
+# INPUTS: 
+#       grid = a polygon layer representing a 1 degree grid
+#       polygon = another polygon layer (an AVA in this script)
+# OUTPUTS: a table of points representing the centroids of the grid cells that intersect the polygon layer, set up to feed to ximages() for downloadin the Polaris images
+xlocations <- function(grid, polygon){
+  tiles<-poly.degree[which(lengths(st_intersects(x=grid, y=polygon))>0),]
+  
+  centroids<-st_centroid(tiles)
+  centroids<-st_transform(centroids, crs=4326)
+  
+  #make up an ID... letters & numbers
+  count.centroids<-dim(centroids)[1]
+  ids<-paste0(letters[1:count.centroids], 1:count.centroids)
+  
+  locations.table<-cbind.data.frame(
+    ids, 
+    st_coordinates(centroids)[,2], #lat is in the 2 spot
+    st_coordinates(centroids)[,1]) #long is in the first spot
+  names(locations.table)<-c("ID", "lat", "long")
+  
+  return(locations.table)
+}
 
 # Read the Data -----------------------------------------------------------
 
