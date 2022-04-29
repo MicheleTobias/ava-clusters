@@ -45,43 +45,43 @@ xlocations <- function(grid, polygon){
 # Read the Data -----------------------------------------------------------
 
 #PRISM data
-#___ precipitation ___
-ppt<-rast(".//PRISM_ppt_30yr_normal_800mM3_annual_bil//PRISM_ppt_30yr_normal_800mM3_annual_bil.bil")
-ppt.2163<-project(ppt, "epsg:2163") #use same crs as avas
-
-#___ temperature ___
-tmean<-rast(".\\PRISM_tmean_30yr_normal_800mM3_annual_bil\\PRISM_tmean_30yr_normal_800mM3_annual_bil.bil")
-tmean.2163<-project(tmean, "epsg:2163")
-
-tmin<-rast(".//PRISM_tmin_30yr_normal_800mM3_annual_bil//PRISM_tmin_30yr_normal_800mM3_annual_bil.bil")
-tmin.2163<-project(tmin, "epsg:2163")
-
-tmax<-rast(".//PRISM_tmax_30yr_normal_800mM3_annual_bil//PRISM_tmax_30yr_normal_800mM3_annual_bil.bil")
-tmax.2163<-project(tmax, "epsg:2163")
-
-#___ elevation ___
-elev<-rast(".//PRISM_us_dem_800m_bil//PRISM_us_dem_800m_bil.bil")
-elev.2163<-project(elev, "epsg:2163") #use same crs as avas
+    #___ precipitation ___
+    ppt<-rast(".//PRISM_ppt_30yr_normal_800mM3_annual_bil//PRISM_ppt_30yr_normal_800mM3_annual_bil.bil")
+    ppt.2163<-project(ppt, "epsg:2163") #use same crs as avas
+    
+    #___ temperature ___
+    tmean<-rast(".\\PRISM_tmean_30yr_normal_800mM3_annual_bil\\PRISM_tmean_30yr_normal_800mM3_annual_bil.bil")
+    tmean.2163<-project(tmean, "epsg:2163")
+    
+    tmin<-rast(".//PRISM_tmin_30yr_normal_800mM3_annual_bil//PRISM_tmin_30yr_normal_800mM3_annual_bil.bil")
+    tmin.2163<-project(tmin, "epsg:2163")
+    
+    tmax<-rast(".//PRISM_tmax_30yr_normal_800mM3_annual_bil//PRISM_tmax_30yr_normal_800mM3_annual_bil.bil")
+    tmax.2163<-project(tmax, "epsg:2163")
+    
+    #___ elevation ___
+    elev<-rast(".//PRISM_us_dem_800m_bil//PRISM_us_dem_800m_bil.bil")
+    elev.2163<-project(elev, "epsg:2163") #use same crs as avas
 
 
 
 #state outlines for viz
-states<-st_read("C:\\Users\\mmtobias\\Box\\D Drive\\GIS_Data\\NaturalEarth\\ne_10m_admin_1_states_provinces\\ne_10m_admin_1_states_provinces.shp")
-states<-st_transform(states, "epsg:2163")
+    states<-st_read("C:\\Users\\mmtobias\\Box\\D Drive\\GIS_Data\\NaturalEarth\\ne_10m_admin_1_states_provinces\\ne_10m_admin_1_states_provinces.shp")
+    states<-st_transform(states, "epsg:2163")
 
 #ava polygons
-data.url<-"https://raw.githubusercontent.com/UCDavisLibrary/ava/master/avas_aggregated_files/avas.geojson"
-avas<-geojson_sf(data.url)
-avas<-st_transform(avas, 2163) #2063=Albers North American Equal Area Conic
-
-#remove ulupalakua because it's in Hawaii and prism doesn't have that in the regular dataset
-avas<-avas[-(which(avas$ava_id=="ulupalakua")), ]
-
-#calculate the area
-avas.area<-st_area(avas$geometry)
-
-#get the dates
-avas.dates<-parse_date_time(avas$created, orders=c("%Y/%m/%d"))
+    data.url<-"https://raw.githubusercontent.com/UCDavisLibrary/ava/master/avas_aggregated_files/avas.geojson"
+    avas<-geojson_sf(data.url)
+    avas<-st_transform(avas, 2163) #2063=Albers North American Equal Area Conic
+    
+    #remove ulupalakua because it's in Hawaii and prism doesn't have that in the regular dataset
+    avas<-avas[-(which(avas$ava_id=="ulupalakua")), ]
+    
+    #calculate the area
+    avas.area<-st_area(avas$geometry)
+    
+    #get the dates
+    avas.dates<-parse_date_time(avas$created, orders=c("%Y/%m/%d"))
 
 #plot the dates over time
 # plot(
