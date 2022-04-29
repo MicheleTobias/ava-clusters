@@ -10,6 +10,7 @@ library(lubridate)
 #library(prism)     #for downloading PRISM data
 library(terra)
 library(RColorBrewer)
+library(XPolaris)
 
 #working directory
 setwd("C:\\Users\\mmtobias\\Box\\Documents\\Publications\\AVA_Clusters\\data")
