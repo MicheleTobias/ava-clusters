@@ -122,3 +122,12 @@ terra::plot(avas4326$geometry, add=T)
 clay.05.crop<-terra::crop(clay.05.rast, avas4326)
 
 clay.05.extract<-terra::extract(y=vect(avas4326), x=clay.05.crop)
+
+#what if I masked the raster instead of clipping? would I even need to extract then? Nope! summary() gets what we need. Mask() seems to be a little quicker.
+# this is helpful: https://rspatial.github.io/terra/reference/terra-package.html
+
+clay.05.mask<-terra::mask(mask=vect(avas4326), x=clay.05.rast)
+clay.05.values<-values(clay.05.mask)
+clay.05.values<-summary(clay.05.mask)
+
+#what if we add another layer? Can we add another variable and make a stack/brick/layer-cake/sandwich-cookie? Can we run sample() on that and get stats for each layer?
