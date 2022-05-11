@@ -91,7 +91,7 @@ plot(ava.test.4326$geometry, add=TRUE)
 #----------------------------------------------------
 library(gdalUtils)
 
-avas<-avas[2:4,]
+avas<-avas[3:4,]
 avas<-avas[4,]
 
 image.points<-xlocations(grid, avas)
@@ -102,18 +102,39 @@ images<-ximages(image.points,
                 layersdepths = c('0_5','5_15','15_30'),
                 localPath = "D:/Data_AVA_Clusters") #images were originally stored in C:\\Users\\mmtobias\\AppData\\Local\\Temp\\Rtmp6LliSp/POLARISOut/ 
 
-# put the images in a folder into a vrt
-clay.05.files<-as.list(list.files("D:/Data_AVA_Clusters/POLARISOut/mean/clay/0_5"))
-
-setwd("D:/Data_AVA_Clusters/POLARISOut/mean/clay/0_5")
-
-#make a vrt from the data in a folder
-gdalUtils::gdalbuildvrt(gdalfile=clay.05.files, output.vrt = "D:/Data_AVA_Clusters/vrt/clay_05.vrt")
-
-#make a vrt from the data in a folder
-clay.05.rast<-rast("D:/Data_AVA_Clusters/vrt/clay_05.vrt")
+# # put the images in a folder into a vrt
+# clay.05.files<-as.list(list.files("D:/Data_AVA_Clusters/POLARISOut/mean/clay/0_5"))
+# 
+# setwd("D:/Data_AVA_Clusters/POLARISOut/mean/clay/0_5")
+# 
+# #make a vrt from the data in a folder
+# gdalUtils::gdalbuildvrt(gdalfile=clay.05.files, output.vrt = "D:/Data_AVA_Clusters/vrt/clay_05.vrt", overwrite=TRUE)
+# 
+# #make a vrt from the data in a folder
+# clay.05.rast<-rast("D:/Data_AVA_Clusters/vrt/clay_05.vrt")
 
 avas4326<-st_transform(avas, 4326)
+
+#function to make VRTs from the polaris data 
+xvrt<-function(InputFolder, vrtPath){
+  files.list<-as.list(list.files(InputFolder))
+  files.path<-paste(InputFolder, files.list, sep="/")
+  gdalUtils::gdalbuildvrt(gdalfile=files.path, output.vrt = vrtPath, overwrite=TRUE)
+}
+
+xvrt(InputFolder = "D:/Data_AVA_Clusters/POLARISOut/mean/sand/0_5", vrtPath = "D:/Data_AVA_Clusters/vrt/sand_05.vrt")
+xvrt(InputFolder = "D:/Data_AVA_Clusters/POLARISOut/mean/clay/0_5", vrtPath = "D:/Data_AVA_Clusters/vrt/clay_05.vrt")
+
+#sand.05.rast<-rast("D:/Data_AVA_Clusters/vrt/sand_05.vrt")
+
+#need to 
+#   get a list of the vrts
+#   turn them into rasters
+#   stack the individual rasters up
+vrtpath<-"D:/Data_AVA_Clusters/vrt"
+soilrasters<-rast(paste(vrtpath, list.files(vrtpath), sep="/"))
+
+
 
 #plot to see if it worked
 terra::plot(clay.05.rast)
