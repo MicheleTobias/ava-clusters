@@ -117,23 +117,49 @@ avas4326<-st_transform(avas, 4326)
 
 #function to make VRTs from the polaris data 
 xvrt<-function(InputFolder, vrtPath){
-  files.list<-as.list(list.files(InputFolder))
-  files.path<-paste(InputFolder, files.list, sep="/")
-  gdalUtils::gdalbuildvrt(gdalfile=files.path, output.vrt = vrtPath, overwrite=TRUE)
+  files.list<-as.list(list.files(InputFolder, full.names = TRUE))
+  gdalUtils::gdalbuildvrt(gdalfile=files.list, output.vrt = vrtPath, overwrite=TRUE)
 }
 
 xvrt(InputFolder = "D:/Data_AVA_Clusters/POLARISOut/mean/sand/0_5", vrtPath = "D:/Data_AVA_Clusters/vrt/sand_05.vrt")
 xvrt(InputFolder = "D:/Data_AVA_Clusters/POLARISOut/mean/clay/0_5", vrtPath = "D:/Data_AVA_Clusters/vrt/clay_05.vrt")
 
-#sand.05.rast<-rast("D:/Data_AVA_Clusters/vrt/sand_05.vrt")
+#automatially make the vrts from the directory
+polaris.dir<-"D:/Data_AVA_Clusters/POLARISOut"
 
-#need to 
-#   get a list of the vrts
-#   turn them into rasters
-#   stack the individual rasters up
+for (i in list.dirs(polaris.dir, full.names = TRUE, recursive=FALSE)){
+  print(paste("current directory:", i))
+  files<-list.files(i, full.names=TRUE)
+  print(files)
+  
+  for (j in files){
+    print(paste("current directory: ", j))
+    data.folders<-list.files(j, full.names = TRUE)
+    
+    for (k in data.folders){
+      print(paste("current directory: ", data.folders))
+      #data.rasters<-list.files(k, full.names=TRUE)
+      path.string<-strsplit(k, "/") #split the path up into component parts
+      last.folder.pos<-length(path.string[[1]])
+      save.vrt<-paste(path.string[[1]][(last.folder.pos-2):last.folder.pos], collapse="_")
+      
+      xvrt(
+        InputFolder = k, 
+        vrtPath = paste0("D:/Data_AVA_Clusters/vrt/", save.vrt, ".vrt"))
+    }
+  }
+}
+
+#make a stack of all the soil rasters
 vrtpath<-"D:/Data_AVA_Clusters/vrt"
-soilrasters<-rast(paste(vrtpath, list.files(vrtpath), sep="/"))
+soilrasters<-rast(list.files(vrtpath, full.names = TRUE))
 
+#sample the raster at each AVA
+foreach(i=1:nrow(avas4326)) %do% { #dopar for parallel
+  print(avas4326$name[i])
+  return(i)
+}
+  
 
 
 #plot to see if it worked
