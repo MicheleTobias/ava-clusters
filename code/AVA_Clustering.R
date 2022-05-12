@@ -13,6 +13,8 @@ library(RColorBrewer)
 library(XPolaris)   #for downloading Polaris (interpolated SSURGO) data
 library(gdalUtils)
 library(foreach)
+library(parallel)
+library(doParallel)
 
 #working directory
 setwd("C:\\Users\\mmtobias\\Box\\Documents\\Publications\\AVA_Clusters\\data")

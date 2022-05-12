@@ -155,9 +155,16 @@ vrtpath<-"D:/Data_AVA_Clusters/vrt"
 soilrasters<-rast(list.files(vrtpath, full.names = TRUE))
 
 #sample the raster at each AVA
-foreach(i=1:nrow(avas4326)) %do% { #dopar for parallel
+#   https://www.r-bloggers.com/2013/08/the-wonders-of-foreach/
+#   https://privefl.github.io/blog/a-guide-to-parallelism-in-r/
+#   LibLap has 8 cores (task manager -> Performance)
+
+cl <- parallel::makeCluster(2)
+doParallel::registerDoParallel(cl)
+
+foreach(i=1:nrow(avas4326), .combine=c) %dopar% { #dopar for parallel; do for serial
   print(avas4326$name[i])
-  return(i)
+  #return(i)
 }
   
 
