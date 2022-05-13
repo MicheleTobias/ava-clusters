@@ -164,9 +164,14 @@ doParallel::registerDoParallel(cl)
 
 foreach(i=1:nrow(avas4326), .combine=c) %dopar% { #dopar for parallel; do for serial
   print(avas4326$name[i])
-  #return(i)
+  # vrt.crop<-terra::crop(soilrasters, avas4326)
+  # vrt.extract<-terra::extract(y=vect(avas4326), x=vrt.crop)
+  vrt.mask<-terra::mask(mask=vect(avas4326), x=soilrasters)
+  vrt.values<-values(vrt.mask)
+  vrt.summary<-summary(vrt.mask)
+  return(vrt.summary)
 }
-  
+parallel::stopCluster(cl)  
 
 
 #plot to see if it worked
