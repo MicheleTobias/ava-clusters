@@ -89,7 +89,7 @@ plot(ava.test.4326$geometry, add=TRUE)
 
 
 #----------------------------------------------------
-library(gdalUtils)
+#library(gdalUtils)
 
 avas<-avas[3:4,]
 avas<-avas[4,]
@@ -115,7 +115,9 @@ images<-ximages(image.points,
 
 avas4326<-st_transform(avas, 4326)
 
-#function to make VRTs from the polaris data 
+#function to make VRTs from the polaris data
+#   PRISM data is 800m pixels
+#   POLARIS is 30m --> resample it with terra::aggregate fact=26
 xvrt<-function(InputFolder, vrtPath){
   files.list<-as.list(list.files(InputFolder, full.names = TRUE))
   gdalUtils::gdalbuildvrt(gdalfile=files.list, output.vrt = vrtPath, overwrite=TRUE)
@@ -126,6 +128,7 @@ xvrt(InputFolder = "D:/Data_AVA_Clusters/POLARISOut/mean/clay/0_5", vrtPath = "D
 
 #automatially make the vrts from the directory
 polaris.dir<-"D:/Data_AVA_Clusters/POLARISOut"
+resample.dir<-"D:/Data_AVA_Clusters/POLARISResample"
 
 for (i in list.dirs(polaris.dir, full.names = TRUE, recursive=FALSE)){
   print(paste("current directory:", i))
@@ -143,8 +146,25 @@ for (i in list.dirs(polaris.dir, full.names = TRUE, recursive=FALSE)){
       last.folder.pos<-length(path.string[[1]])
       save.vrt<-paste(path.string[[1]][(last.folder.pos-2):last.folder.pos], collapse="_")
       
+      #create directory to save the resampled images in
+      sub.dir<-paste(path.string[[1]][(last.folder.pos-2):last.folder.pos], collapse="/")
+      ifelse(!dir.exists(file.path(resample.dir, sub.dir)), dir.create(file.path(resample.dir, sub.dir), recursive = TRUE), FALSE)
+      
+      #resample the images
+      m<-list.files(k, full.names = FALSE)
+      resample.rasters<-function(p){
+        p.rast<-rast(paste(k, p, sep="/"))
+        p.resamp<-terra::aggregate(
+          x=rast(paste(k,p, sep="/")), 
+          fact=26, 
+          filename=paste(resample.dir, sub.dir, p, sep="/"), 
+          fun="mean", 
+          overwrite=TRUE)
+      }
+      lapply(m, FUN=resample.rasters)
+      
       xvrt(
-        InputFolder = k, 
+        InputFolder = paste(resample.dir, sub.dir, sep="/"), 
         vrtPath = paste0("D:/Data_AVA_Clusters/vrt/", save.vrt, ".vrt"))
     }
   }
@@ -159,20 +179,29 @@ soilrasters<-rast(list.files(vrtpath, full.names = TRUE))
 #   https://privefl.github.io/blog/a-guide-to-parallelism-in-r/
 #   LibLap has 8 cores (task manager -> Performance)
 
-cl <- parallel::makeCluster(2)
-doParallel::registerDoParallel(cl)
+ava.mask<-terra::vect(avas4326)
 
-foreach(i=1:nrow(avas4326), .combine=c) %dopar% { #dopar for parallel; do for serial
-  print(avas4326$name[i])
-  # vrt.crop<-terra::crop(soilrasters, avas4326)
-  # vrt.extract<-terra::extract(y=vect(avas4326), x=vrt.crop)
-  vrt.mask<-terra::mask(mask=vect(avas4326), x=soilrasters)
+# cl <- parallel::makeCluster(2)
+# doParallel::registerDoParallel(cl)
+
+raster.summaries<-data.frame()
+
+#foreach(i=1:nrow(ava.mask), .combine=c) %dopar% { #dopar for parallel; do for serial
+
+for(i in 1:nrow(ava.mask)){
+  print(ava.mask$name[i])
+  vrt.mask<-terra::mask(mask=ava.mask[i], x=soilrasters)
   vrt.values<-values(vrt.mask)
   vrt.summary<-summary(vrt.mask)
-  return(vrt.summary)
+  means<-as.numeric(trim(gsub("Mean   :", "", vrt.summary[4,])))
+  row.to.add<-c(avas4326$name[i], means)
+  raster.summaries<-rbind(raster.summaries, row.to.add)
+  #return(vrt.summary) 
 }
-parallel::stopCluster(cl)  
 
+#parallel::stopCluster(cl)  
+
+names(raster.summaries)<-c("mean_clay_0_5", "mean_clay_15_30",  "mean_clay_5_15","mean_sand_0_5","mean_sand_15_30",  "mean_sand_5_15","mean_silt_0_5","mean_silt_15_30","mean_silt_5_15") 
 
 #plot to see if it worked
 terra::plot(clay.05.rast)
