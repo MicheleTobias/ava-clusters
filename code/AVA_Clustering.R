@@ -306,7 +306,7 @@ for(i in 1:nrow(ava.mask)){
 }
 
 #make column names
-names(raster.summaries)<-c("mean_clay_0_5", "mean_clay_15_30",  "mean_clay_5_15","mean_sand_0_5","mean_sand_15_30",  "mean_sand_5_15","mean_silt_0_5","mean_silt_15_30","mean_silt_5_15") 
+names(raster.summaries)<-c("ava", "mean_clay_0_5", "mean_clay_15_30",  "mean_clay_5_15","mean_sand_0_5","mean_sand_15_30",  "mean_sand_5_15","mean_silt_0_5","mean_silt_15_30","mean_silt_5_15") 
 
 
 
