@@ -28,7 +28,9 @@ setwd("C:\\Users\\mmtobias\\Box\\Documents\\Publications\\AVA_Clusters\\data")
 #       polygon = another polygon layer (an AVA in this script)
 # OUTPUTS: a table of points representing the centroids of the grid cells that intersect the polygon layer, set up to feed to ximages() for downloadin the Polaris images
 xlocations <- function(grid, polygon){
-  tiles<-poly.degree[which(lengths(st_intersects(x=grid, y=polygon))>0),]
+  #tiles<-poly.degree[which(lengths(st_intersects(x=grid, y=polygon))>0),]
+  
+  tiles<-grid[which(lengths(st_intersects(x=grid, y=polygon))>0),]
   
   centroids<-st_centroid(tiles)
   centroids<-st_transform(centroids, crs=4326)
@@ -224,20 +226,109 @@ for (i in 1:length(avas$ava_id)){
     
 # For each AVA, set up the Polaris locations table
 
-avas<-avas[2:4,] # !!! remove later
+avas<-avas[3:4,] # !!! remove later
+
+image.points<-xlocations(grid, avas)
+
+images<-ximages(image.points,
+                statistics = c('mean'),
+                variables = c('sand','silt','clay'),
+                layersdepths = c('0_5','5_15','15_30'),
+                localPath = "D:/Data_AVA_Clusters") #images were
+
+avas4326<-st_transform(avas, 4326)
+
+#automatially make the vrts from the directory
+polaris.dir<-"D:/Data_AVA_Clusters/POLARISOut"
+resample.dir<-"D:/Data_AVA_Clusters/POLARISResample"
+
+for (i in list.dirs(polaris.dir, full.names = TRUE, recursive=FALSE)){
+  print(paste("current directory:", i))
+  files<-list.files(i, full.names=TRUE)
+  print(files)
+  
+  for (j in files){
+    print(paste("current directory: ", j))
+    data.folders<-list.files(j, full.names = TRUE)
     
-for (i in 1:nrow(avas)){
-  
-  #set up the locations table
-  print(avas$name[i])
-  image.points<-xlocations(grid=grid, polygon = avas[i,])
-  print(image.points)
-  
-  #wait a random time to avoid looking like a DOS attack
-  #t<-sample(3:30, 1, replace=TRUE) #a uniform distribution
-  t<-abs(rnorm(1, mean=10, sd=3)) #pick a number from a normal distribution, abs() to make sure it's non negative
-  Sys.sleep(t)
+    for (k in data.folders){
+      print(paste("current directory: ", data.folders))
+      #data.rasters<-list.files(k, full.names=TRUE)
+      path.string<-strsplit(k, "/") #split the path up into component parts
+      last.folder.pos<-length(path.string[[1]])
+      save.vrt<-paste(path.string[[1]][(last.folder.pos-2):last.folder.pos], collapse="_")
+      
+      #create directory to save the resampled images in
+      sub.dir<-paste(path.string[[1]][(last.folder.pos-2):last.folder.pos], collapse="/")
+      ifelse(!dir.exists(file.path(resample.dir, sub.dir)), dir.create(file.path(resample.dir, sub.dir), recursive = TRUE), FALSE)
+      
+      #resample the images
+      #   PRISM data is 800m pixels
+      #   POLARIS is 30m --> resample it with terra::aggregate fact=26
+      m<-list.files(k, full.names = FALSE)
+      resample.rasters<-function(p){
+        p.rast<-rast(paste(k, p, sep="/"))
+        p.resamp<-terra::aggregate(
+          x=rast(paste(k,p, sep="/")), 
+          fact=26, 
+          filename=paste(resample.dir, sub.dir, p, sep="/"), 
+          fun="mean", 
+          overwrite=TRUE)
+      }
+      lapply(m, FUN=resample.rasters)
+      
+      xvrt(
+        InputFolder = paste(resample.dir, sub.dir, sep="/"), 
+        vrtPath = paste0("D:/Data_AVA_Clusters/vrt/", save.vrt, ".vrt"))
+    }
+  }
 }
+
+#make a stack of all the soil rasters
+vrtpath<-"D:/Data_AVA_Clusters/vrt"
+soilrasters<-rast(list.files(vrtpath, full.names = TRUE))
+
+#sample the raster at each AVA
+
+ava.mask<-terra::vect(avas4326) #convert the avas file into a spatVect
+
+raster.summaries<-data.frame() #make an empty dataframe to fill in using a loop
+
+for(i in 1:nrow(ava.mask)){
+  print(ava.mask$name[i])
+  vrt.mask<-terra::mask(mask=ava.mask[i], x=soilrasters)
+  vrt.values<-values(vrt.mask)
+  vrt.summary<-summary(vrt.mask)
+  means<-as.numeric(trim(gsub("Mean   :", "", vrt.summary[4,])))
+  row.to.add<-c(avas4326$name[i], means)
+  raster.summaries<-rbind(raster.summaries, row.to.add)
+  #return(vrt.summary) 
+}
+
+#make column names
+names(raster.summaries)<-c("mean_clay_0_5", "mean_clay_15_30",  "mean_clay_5_15","mean_sand_0_5","mean_sand_15_30",  "mean_sand_5_15","mean_silt_0_5","mean_silt_15_30","mean_silt_5_15") 
+
+
+
+
+
+
+
+
+
+
+# for (i in 1:nrow(avas)){
+#   
+#   #set up the locations table
+#   print(avas$name[i])
+#   image.points<-xlocations(grid=grid, polygon = avas[i,])
+#   print(image.points)
+#   
+#   #wait a random time to avoid looking like a DOS attack
+#   #t<-sample(3:30, 1, replace=TRUE) #a uniform distribution
+#   t<-abs(rnorm(1, mean=10, sd=3)) #pick a number from a normal distribution, abs() to make sure it's non negative
+#   Sys.sleep(t)
+# }
 
 
 
