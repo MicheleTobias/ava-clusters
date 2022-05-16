@@ -46,6 +46,18 @@ xlocations <- function(grid, polygon){
   return(locations.table)
 }
 
+#FUNCTION: xvrt()
+# INPUTS: 
+#       InputFolder = the path to the folder that contains the files you want to make a vrt from
+#       vrtPath = the path including the file name for the output vrt
+# OUTPUTS: a vrt saved in the vrtPath
+
+#function to make VRTs from the polaris data
+xvrt<-function(InputFolder, vrtPath){
+  files.list<-as.list(list.files(InputFolder, full.names = TRUE))
+  gdalUtils::gdalbuildvrt(gdalfile=files.list, output.vrt = vrtPath, overwrite=TRUE)
+}
+
 # Read the Data -----------------------------------------------------------
 
 #PRISM data

@@ -116,8 +116,6 @@ images<-ximages(image.points,
 avas4326<-st_transform(avas, 4326)
 
 #function to make VRTs from the polaris data
-#   PRISM data is 800m pixels
-#   POLARIS is 30m --> resample it with terra::aggregate fact=26
 xvrt<-function(InputFolder, vrtPath){
   files.list<-as.list(list.files(InputFolder, full.names = TRUE))
   gdalUtils::gdalbuildvrt(gdalfile=files.list, output.vrt = vrtPath, overwrite=TRUE)
@@ -151,6 +149,8 @@ for (i in list.dirs(polaris.dir, full.names = TRUE, recursive=FALSE)){
       ifelse(!dir.exists(file.path(resample.dir, sub.dir)), dir.create(file.path(resample.dir, sub.dir), recursive = TRUE), FALSE)
       
       #resample the images
+      #   PRISM data is 800m pixels
+      #   POLARIS is 30m --> resample it with terra::aggregate fact=26
       m<-list.files(k, full.names = FALSE)
       resample.rasters<-function(p){
         p.rast<-rast(paste(k, p, sep="/"))
