@@ -4,17 +4,17 @@
 # Set Up ------------------------------------------------------------------
 
 #libraries
-library(sf)
-library(geojsonsf)
-library(lubridate)
-#library(prism)     #for downloading PRISM data
-library(terra)
-library(RColorBrewer)
-library(XPolaris)   #for downloading Polaris (interpolated SSURGO) data
-library(gdalUtils)
-library(foreach)
-library(parallel)
-library(doParallel)
+  library(sf)
+  library(geojsonsf)
+  library(lubridate)
+  library(terra)
+  library(RColorBrewer)
+  library(XPolaris)   #for downloading Polaris (interpolated SSURGO) data
+  library(gdalUtils)
+  #library(prism)     #for downloading PRISM data
+  #library(foreach)
+  #library(parallel)
+  #library(doParallel)
 
 #working directory
 setwd("C:\\Users\\mmtobias\\Box\\Documents\\Publications\\AVA_Clusters\\data")
@@ -204,6 +204,10 @@ for (i in 1:length(avas$ava_id)){
     #   * https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2018WR022797 
     #   * https://github.com/cran/XPolaris
 
+
+avas4326<-st_transform(avas, 4326)
+
+#------ Only Run for New Data --------
 # Create the Polaris 1 degree grid
     #create a 1 degree raster
     xmax<- -65
@@ -237,7 +241,7 @@ images<-ximages(image.points,
                 layersdepths = c('0_5','5_15','15_30'),
                 localPath = "D:/Data_AVA_Clusters") #images were
 
-avas4326<-st_transform(avas, 4326)
+
 
 #resample the rasters and make the vrts from the directory
 polaris.dir<-"D:/Data_AVA_Clusters/POLARISOut"
@@ -285,6 +289,8 @@ for (i in list.dirs(polaris.dir, full.names = TRUE, recursive=FALSE)){
   }
 }
 
+#END------ Only Run for New Data --------
+
 #make a stack of all the soil rasters
 vrtpath<-"D:/Data_AVA_Clusters/vrt"
 soilrasters<-rast(list.files(vrtpath, full.names = TRUE))
@@ -300,17 +306,24 @@ for(i in 1:nrow(ava.mask)){
   vrt.mask<-terra::mask(mask=ava.mask[i], x=soilrasters)
   vrt.values<-values(vrt.mask)
   vrt.summary<-summary(vrt.mask)
+  
+  #mean data
   means<-as.numeric(trim(gsub("Mean   :", "", vrt.summary[4,])))
-  #row.to.add<-c(avas4326$name[i], means)
-  row.to.add<-means
+  
+  #range
+  vrt.min<-as.numeric(trim(gsub("Min.   :", "", vrt.summary[1,])))
+  vrt.max<-as.numeric(trim(gsub("Max.   :", "", vrt.summary[6,])))
+  vrt.range<-vrt.max-vrt.min
+  
+  #build the dataframe
+  row.to.add<-c(means, vrt.range)
   soils.df<-rbind(soils.df, row.to.add)
   #return(vrt.summary) 
 }
 
 #make column names
-names(soils.df)<-c("mean_clay_0_5", "mean_clay_15_30",  "mean_clay_5_15","mean_sand_0_5","mean_sand_15_30",  "mean_sand_5_15","mean_silt_0_5","mean_silt_15_30","mean_silt_5_15") 
+names(soils.df)<-c("mean_clay_0_5", "mean_clay_15_30",  "mean_clay_5_15","mean_sand_0_5","mean_sand_15_30",  "mean_sand_5_15","mean_silt_0_5","mean_silt_15_30","mean_silt_5_15","range_clay_0_5","range_clay_15_30","range_clay_5_15","range_sand_0_5","range_sand_15_30","range_sand_5_15","range_silt_0_5","range_silt_15_30","range_silt_5_15") 
 
-soils.df<-as.numeric(soils.df)
 
 
 # Build the Data Frame of Attributes --------------------------------------
@@ -347,6 +360,7 @@ dissimilarity<-dist(z.scores[, 2:ncol(z.scores)])
 
 #hierarchical cluster analysis
 clusters<-hclust(dissimilarity)
+clusters$labels <- avas$name
 plot(clusters, cex=.5)
 
 n.groups=6 #how many clusters to make
