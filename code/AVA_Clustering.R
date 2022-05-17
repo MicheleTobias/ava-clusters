@@ -226,10 +226,11 @@ for (i in 1:length(avas$ava_id)){
     
 # For each AVA, set up the Polaris locations table
 
-avas<-avas[3:4,] # !!! remove later
+#avas<-avas[3:4,] # !!! remove later
 
 image.points<-xlocations(grid, avas)
 
+#download the POLARIS data - note, if the data is already there, it won't re-download it (thank goodness!)
 images<-ximages(image.points,
                 statistics = c('mean'),
                 variables = c('sand','silt','clay'),
@@ -238,7 +239,7 @@ images<-ximages(image.points,
 
 avas4326<-st_transform(avas, 4326)
 
-#automatially make the vrts from the directory
+#resample the rasters and make the vrts from the directory
 polaris.dir<-"D:/Data_AVA_Clusters/POLARISOut"
 resample.dir<-"D:/Data_AVA_Clusters/POLARISResample"
 
@@ -292,7 +293,7 @@ soilrasters<-rast(list.files(vrtpath, full.names = TRUE))
 
 ava.mask<-terra::vect(avas4326) #convert the avas file into a spatVect
 
-raster.summaries<-data.frame() #make an empty dataframe to fill in using a loop
+soils.df<-data.frame() #make an empty dataframe to fill in using a loop
 
 for(i in 1:nrow(ava.mask)){
   print(ava.mask$name[i])
@@ -300,45 +301,22 @@ for(i in 1:nrow(ava.mask)){
   vrt.values<-values(vrt.mask)
   vrt.summary<-summary(vrt.mask)
   means<-as.numeric(trim(gsub("Mean   :", "", vrt.summary[4,])))
-  row.to.add<-c(avas4326$name[i], means)
-  raster.summaries<-rbind(raster.summaries, row.to.add)
+  #row.to.add<-c(avas4326$name[i], means)
+  row.to.add<-means
+  soils.df<-rbind(soils.df, row.to.add)
   #return(vrt.summary) 
 }
 
 #make column names
-names(raster.summaries)<-c("ava", "mean_clay_0_5", "mean_clay_15_30",  "mean_clay_5_15","mean_sand_0_5","mean_sand_15_30",  "mean_sand_5_15","mean_silt_0_5","mean_silt_15_30","mean_silt_5_15") 
+names(soils.df)<-c("mean_clay_0_5", "mean_clay_15_30",  "mean_clay_5_15","mean_sand_0_5","mean_sand_15_30",  "mean_sand_5_15","mean_silt_0_5","mean_silt_15_30","mean_silt_5_15") 
 
-
-
-
-
-
-
-
-
-
-# for (i in 1:nrow(avas)){
-#   
-#   #set up the locations table
-#   print(avas$name[i])
-#   image.points<-xlocations(grid=grid, polygon = avas[i,])
-#   print(image.points)
-#   
-#   #wait a random time to avoid looking like a DOS attack
-#   #t<-sample(3:30, 1, replace=TRUE) #a uniform distribution
-#   t<-abs(rnorm(1, mean=10, sd=3)) #pick a number from a normal distribution, abs() to make sure it's non negative
-#   Sys.sleep(t)
-# }
-
-
-
-
+soils.df<-as.numeric(soils.df)
 
 
 # Build the Data Frame of Attributes --------------------------------------
 cluster.data<-cbind.data.frame(avas$ava_id, 
                                #avas.area, #removed area because it seemed redundant with the ranges of ppt, elev, and temp
-                               ppt.df, elev.df, t.df)
+                               ppt.df, elev.df, t.df, soils.df)
 names(cluster.data)[1]<-"ava_id"
 
 # Normalize the data by calculating the z score for each column = (x-mean)/sd
