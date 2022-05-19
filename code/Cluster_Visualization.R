@@ -11,6 +11,7 @@
   library(geojsonsf)
   library(sf)
   library(RColorBrewer)
+  library(dendextend)
 
 # Read the data
 setwd("D:/Data_AVA_Clusters")
@@ -41,10 +42,19 @@ plot(clusters.dendrogram,
      type="rectangle", 
      ylab="height", 
      horiz = FALSE, 
-     cex = 0.1, 
-     mar=c(5,3,3,3),
+     #cex = 0.1,
+     leaflab = "none"
+     #mar=c(5,3,3,3),
      #h=10.1
      )
+
+#Draw a line on the Dendrogram
+#     https://stackoverflow.com/questions/49091292/how-to-line-cut-a-dendrogram-at-the-best-k
+k <- 7
+n <- nrow(avas)
+MidPoint <- (clusters$height[n-k] + clusters$height[n-k+1]) / 2 #calculate the midpoint of the branches that makes k clusters
+abline(h = MidPoint, lty=2)
+
 
 
 plot(as.phylo(clusters), cex=0.2, label.offset = 0.3)
@@ -69,3 +79,29 @@ plot(states$geometry, xlim=avas.bbox[c(1,3)], ylim=avas.bbox[c(2,4)], border="gr
 plot(grouped.avas["groups"], col=group.colors, border="gray", add=TRUE)
 
 st_write(obj=grouped.avas, "avas_7_groups.shp", append = FALSE)
+
+
+
+# using the dendextend package
+#     Color Palette help: https://github.com/EmilHvitfeldt/r-color-palettes
+
+clusters.dendrogram %>% 
+  set("branches_k_color", value=rainbow(7), k = 7) %>% 
+  plot(cex=0.1, leaflab = "none") 
+  
+rect.dendrogram(tree= clusters.dendrogram, 
+                k=7, 
+                #cluster = groups,
+                text = c(6,7,2,1,5,4,3),
+                xpd = FALSE,
+                border = 8, 
+                lty = 2, 
+                lwd = 1
+                )
+
+
+
+
+
+
+
