@@ -33,7 +33,7 @@ avas.dates<-parse_date_time(avas$created, orders=c("%Y/%m/%d"))
 
 
 # Analysis ----------------------------------------------------------------
-plot(clusters, hang=-1, cex=0.6)
+#plot(clusters, hang=-1, cex=0.6)
 
 
 clusters.dendrogram<-as.dendrogram(clusters)
@@ -82,11 +82,16 @@ st_write(obj=grouped.avas, "avas_7_groups.shp", append = FALSE)
 
 
 
-# using the dendextend package
+# ACTUAL FIGURE: using the dendextend package
 #     Color Palette help: https://github.com/EmilHvitfeldt/r-color-palettes
 
+#group.colors<-c("#C01900", "#FFC000", "#FFFB01", "#92D050", "#01B050", "#01B0F0", "#6F309F")
+
+group.colors<-c("#bf2110", "#f48843", "#FEE08B", "#ABDDA4", "#548b49", "#3288BD", "#5E4FA2")
+
+
 clusters.dendrogram %>% 
-  set("branches_k_color", value=rainbow(7), k = 7) %>% 
+  set("branches_k_color", value=group.colors, k = 7) %>% 
   plot(cex=0.1, leaflab = "none") 
   
 rect.dendrogram(tree= clusters.dendrogram, 
