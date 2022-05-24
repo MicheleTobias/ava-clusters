@@ -304,8 +304,8 @@ soils.df<-data.frame() #make an empty dataframe to fill in using a loop
 for(i in 1:nrow(ava.mask)){
   print(ava.mask$name[i])
   vrt.mask<-terra::mask(mask=ava.mask[i], x=soilrasters)
-  vrt.values<-values(vrt.mask)
-  vrt.summary<-summary(vrt.mask)
+  vrt.values<-values(vrt.mask, na.rm = TRUE)
+  vrt.summary<-summary(vrt.values)
   
   #mean data
   means<-as.numeric(trim(gsub("Mean   :", "", vrt.summary[4,])))
@@ -318,7 +318,9 @@ for(i in 1:nrow(ava.mask)){
   #build the dataframe
   row.to.add<-c(means, vrt.range)
   soils.df<-rbind(soils.df, row.to.add)
-  #return(vrt.summary) 
+  #return(vrt.summary)
+  
+  tmpFiles(current = TRUE, remove = TRUE)
 }
 
 #make column names
@@ -327,10 +329,12 @@ names(soils.df)<-c("mean_clay_0_5", "mean_clay_15_30",  "mean_clay_5_15","mean_s
 
 
 # Build the Data Frame of Attributes --------------------------------------
-cluster.data<-cbind.data.frame(avas$ava_id, 
+cluster.data<-cbind.data.frame(#avas$ava_id, 
                                #avas.area, #removed area because it seemed redundant with the ranges of ppt, elev, and temp
                                ppt.df, elev.df, t.df, soils.df)
-names(cluster.data)[1]<-"ava_id"
+#names(cluster.data)[1]<-"ava_id"
+
+saveRDS(cluster.data, "D:/Data_AVA_Clusters/cluster_data.rds")
 
 # Normalize the data by calculating the z score for each column = (x-mean)/sd
 z.scores<-data.frame(
@@ -340,7 +344,7 @@ z.scores<-data.frame(
   )
 )
 names(z.scores)<-names(cluster.data)
-z.scores$ava_id<-cluster.data$ava_id
+#z.scores$ava_id<-cluster.data$ava_id
 
 for (i in 2:length(names(cluster.data))){
   print(i)
@@ -352,6 +356,7 @@ for (i in 2:length(names(cluster.data))){
   z.scores[,i]<-z
 }
 
+saveRDS(z.scores, "D:/Data_AVA_Clusters/z_scores.rds")
 
 # Cluster Analysis --------------------------------------------------------
 #dissimilarity structure
@@ -362,6 +367,8 @@ dissimilarity<-dist(z.scores[, 2:ncol(z.scores)])
 clusters<-hclust(dissimilarity)
 clusters$labels <- avas$name
 plot(clusters, cex=.5)
+
+saveRDS(clusters, "D:/Data_AVA_Clusters/clusters.rds")
 
 n.groups=6 #how many clusters to make
 groups<- cutree(clusters, k=n.groups) #cut the tree into n.groups
