@@ -83,16 +83,16 @@ groups<- cutree(clusters,
 #     dendextend: https://cran.r-project.org/web/packages/dendextend/vignettes/dendextend.html 
 #     Color Palette help: https://github.com/EmilHvitfeldt/r-color-palettes
 
-clusters$labels<-c()
+#clusters$labels<-c()
 clusters.dendrogram<-as.dendrogram(clusters)
 no.groups<-6
 
 group.colors<-c("#bf2110", "#f48843", "#FEE08B", 
                 #"#ABDDA4", 
                 "#548b49", "#3288BD", "#5E4FA2")
-group.colors<-rainbow(no.groups)
+#group.colors<-rainbow(no.groups)
 
-par(mar=c(10, 2, 1, 1))
+par(mar=c(25, 2, 0, 0), cex=0.3)
 
 clusters.dendrogram %>% 
   set("branches_k_color", value=group.colors, k = no.groups) %>%
@@ -110,6 +110,10 @@ clusters.dendrogram %>%
                 lty = 2, 
                 lwd = 1
                 )
+
+colors.plot.order=c("#548b49", "#bf2110","#5E4FA2","#f48843","#3288BD","#FEE08B")
+
+colored_bars(colors=colors.plot.order[cutree(clusters.dendrogram, k=6)], dend=clusters.dendrogram, horiz = F)
 
 
 #viz dynamiccutree
@@ -144,7 +148,7 @@ clusters.dendrogram %>%
   branches_attr_by_clusters(n.clusters.ordered, values  = groupcolors) %>% 
   plot(horiz=T)
 
-#colored_bars(colors=groupcolors[n.clusters], dend=clusters.dendrogram, horiz = T)
+colored_bars(colors=groupcolors[n.clusters], dend=clusters.dendrogram, horiz = T)
 
 #maps
 
@@ -162,3 +166,6 @@ st_write(obj=cutree.avas, "avas_cutree_2022-05-23-1045.shp", append = FALSE)
 
 #heatmap
 heatmap(as.matrix(z.scores), RowSideColors=groupcolors[n.clusters])
+
+#how do we get this dendrogram to be the same as the other one?
+heatmap(as.matrix(z.scores), RowSideColors=colors.plot.order[cutree(clusters.dendrogram, k=6)])
