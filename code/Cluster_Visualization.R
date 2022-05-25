@@ -14,6 +14,7 @@
   library(dendextend)
   library(pvclust)
   library(dynamicTreeCut)
+  library(RColorBrewer)
 
 # Read the data
 setwd("D:/Data_AVA_Clusters")
@@ -168,4 +169,18 @@ st_write(obj=cutree.avas, "avas_cutree_2022-05-23-1045.shp", append = FALSE)
 heatmap(as.matrix(z.scores), RowSideColors=groupcolors[n.clusters])
 
 #how do we get this dendrogram to be the same as the other one?
-heatmap(as.matrix(z.scores), RowSideColors=colors.plot.order[cutree(clusters.dendrogram, k=6)])
+#par(mar=c(20, 3, 3, 2), cex=0.5)
+
+winecolors<-colorRampPalette(c("white", "#520E1F"))
+
+
+heatmap(
+  as.matrix(z.scores), 
+  Rowv = clusters.dendrogram,
+  margins = c(10,1),
+  col=winecolors(10), #brewer.pal(9, "Greys"),
+  labRow = c(""),
+  labCol = c("Precipitation (range)", "Precipitation (mean)", "Elevation (range)", "Elevation (mean)", "Temperature (range)", "Temperature (mean)", "Clay 0-5cm (mean)", "Clay 15-30cm (mean)", "Clay 5-15cm (mean)", "Sand 0-5cm (mean)", "Sand 15-30cm (mean)", "Sand 5-15cm (mean)", "Silt 0-5cm (mean)", "Silt 15-30cm (mean)", "Silt 5-15cm (mean)", "Clay 0-5cm (range)", "Clay 15-30cm (range)", "Clay 5-15cm (range)", "Sand 0-5cm (range)", "Sand 15-30cm (range)", "Sand 5-15cm (range)", "Silt 0-5cm (range)", "Silt 15-30cm (range)", "Silt 5-15cm (range)"),
+  RowSideColors=colors.plot.order[cutree(clusters.dendrogram, k=6)])
+
+legend(x="topleft", legend=c("low", "medium", "high"), fill=winecolors(3), cex=0.5)
