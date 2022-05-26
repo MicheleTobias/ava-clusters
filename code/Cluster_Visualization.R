@@ -56,7 +56,7 @@ plot(clusters.dendrogram,
 
 #Draw a line on the Dendrogram
 #     https://stackoverflow.com/questions/49091292/how-to-line-cut-a-dendrogram-at-the-best-k
-k <- 7
+k <- 6
 n <- nrow(avas)
 MidPoint <- (clusters$height[n-k] + clusters$height[n-k+1]) / 2 #calculate the midpoint of the branches that makes k clusters
 abline(h = MidPoint, lty=2)
@@ -93,17 +93,19 @@ group.colors<-c("#bf2110", "#f48843", "#FEE08B",
                 "#548b49", "#3288BD", "#5E4FA2")
 #group.colors<-rainbow(no.groups)
 
-par(mar=c(25, 2, 0, 0), cex=0.3)
+par(mar=c( 2, 0, 0, 25), cex=0.3)
 
 clusters.dendrogram %>% 
   set("branches_k_color", value=group.colors, k = no.groups) %>%
-  plot(cex=0.05) #, leaflab = "none") 
+  plot(cex=0.05, horiz=T,
+       ylab="Difference") #, leaflab = "none") 
 
 par(mar=c(0,0,0,0))
   
 clusters.dendrogram %>% 
   rect.dendrogram( 
                 k=no.groups, 
+                horiz=T,
                 #cluster = groups,
                 #text = c(6,7,2,1,5,4,3),
                 xpd = FALSE,
@@ -114,7 +116,7 @@ clusters.dendrogram %>%
 
 colors.plot.order=c("#548b49", "#bf2110","#5E4FA2","#f48843","#3288BD","#FEE08B")
 
-colored_bars(colors=colors.plot.order[cutree(clusters.dendrogram, k=6)], dend=clusters.dendrogram, horiz = F)
+colored_bars(colors=colors.plot.order[cutree(clusters.dendrogram, k=6)], dend=clusters.dendrogram, horiz = T)
 
 
 #viz dynamiccutree
@@ -154,7 +156,7 @@ colored_bars(colors=groupcolors[n.clusters], dend=clusters.dendrogram, horiz = T
 #maps
 
 grouped.avas<-cbind(avas, groups) 
-cutree.avas<-cbind(avas, groups, n.clusters)
+#cutree.avas<-cbind(avas, groups, n.clusters)
 names(cutree.avas)[23]<-"cutree_groups"
 
 #group.colors<-c("darkred", "darkorange", "gold", "darkolivegreen3", "navyblue")[grouped.avas$groups]
@@ -163,7 +165,7 @@ avas.bbox<-st_bbox(avas)
 plot(states$geometry, xlim=avas.bbox[c(1,3)], ylim=avas.bbox[c(2,4)], border="gray")
 plot(cutree.avas["groups"], col=group.colors, border="gray", add=TRUE)
 
-st_write(obj=cutree.avas, "avas_cutree_2022-05-23-1045.shp", append = FALSE)
+st_write(obj=grouped.avas, "avas_cutree_2022-05-25-1235.shp", append = FALSE)
 
 #heatmap
 heatmap(as.matrix(z.scores), RowSideColors=groupcolors[n.clusters])
