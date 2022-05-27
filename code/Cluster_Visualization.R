@@ -43,23 +43,23 @@ avas.dates<-parse_date_time(avas$created, orders=c("%Y/%m/%d"))
 
 clusters.dendrogram<-as.dendrogram(clusters)
 
-plot(clusters.dendrogram, 
-     type="rectangle", 
-     ylab="height", 
-     horiz = FALSE, 
-     #cex = 0.1,
-     leaflab = "none"
-     #mar=c(5,3,3,3),
-     #h=10.1
-     )
-
-
-#Draw a line on the Dendrogram
-#     https://stackoverflow.com/questions/49091292/how-to-line-cut-a-dendrogram-at-the-best-k
-k <- 6
-n <- nrow(avas)
-MidPoint <- (clusters$height[n-k] + clusters$height[n-k+1]) / 2 #calculate the midpoint of the branches that makes k clusters
-abline(h = MidPoint, lty=2)
+# plot(clusters.dendrogram, 
+#      type="rectangle", 
+#      ylab="height", 
+#      horiz = FALSE, 
+#      #cex = 0.1,
+#      leaflab = "none"
+#      #mar=c(5,3,3,3),
+#      #h=10.1
+#      )
+# 
+# 
+# #Draw a line on the Dendrogram
+# #     https://stackoverflow.com/questions/49091292/how-to-line-cut-a-dendrogram-at-the-best-k
+# k <- 6
+# n <- nrow(avas)
+# MidPoint <- (clusters$height[n-k] + clusters$height[n-k+1]) / 2 #calculate the midpoint of the branches that makes k clusters
+# abline(h = MidPoint, lty=2)
 
 
 
@@ -73,11 +73,6 @@ groups<- cutree(clusters,
                 k=n.groups #cut the tree into n.groups
                 #h=h.cut
 )
-
-
-
-
-
 
 
 # ACTUAL FIGURE: using the dendextend package
@@ -122,53 +117,53 @@ colored_bars(colors=colors.plot.order[cutree(clusters.dendrogram, k=6)], dend=cl
 #viz dynamiccutree
 
     # How many clusters?
-n.clusters<-dynamicTreeCut::cutreeDynamic(
-  dendro=clusters, 
-  minClusterSize = 15, #20
-  distM = as.matrix(dist(z.scores)),
-  method = "hybrid",
-  verbose = TRUE)
-
-n.clusters<-dynamicTreeCut::cutreeDynamic(
-  dendro=clusters, 
-  minClusterSize = 15, #20
-  distM = as.matrix(dist(z.scores)),
-  method = "tree",
-  verbose = 4)
-
-n.clusters.ordered<-n.clusters[order.dendrogram(clusters.dendrogram)]
-ngroups<- unique(n.clusters) - (0 %in% n.clusters)
-ngroups<-length(ngroups)
-groupcolors<-rainbow(ngroups)
-groupcolors<-c("#bf2110", "#f48843", "#FEE08B", 
-                #"#ABDDA4", 
-                "#548b49", "#3288BD") #, "#5E4FA2")
-
-par(cex=.5, mar=c(2, 1, 0, 20))
-#par(cex=.5, mar=c(20,2, 1, 0))
-clusters.dendrogram %>% 
-  set("labels_cex", value=.6) %>% 
-  branches_attr_by_clusters(n.clusters.ordered, values  = groupcolors) %>% 
-  plot(horiz=T)
-
-colored_bars(colors=groupcolors[n.clusters], dend=clusters.dendrogram, horiz = T)
-
-#maps
-
-grouped.avas<-cbind(avas, groups) 
-#cutree.avas<-cbind(avas, groups, n.clusters)
-names(cutree.avas)[23]<-"cutree_groups"
-
-#group.colors<-c("darkred", "darkorange", "gold", "darkolivegreen3", "navyblue")[grouped.avas$groups]
-group.colors<-brewer.pal(n=ngroups, name="Set1")[cutree.avas$cutree_groups]
-avas.bbox<-st_bbox(avas)
-plot(states$geometry, xlim=avas.bbox[c(1,3)], ylim=avas.bbox[c(2,4)], border="gray")
-plot(cutree.avas["groups"], col=group.colors, border="gray", add=TRUE)
-
-st_write(obj=grouped.avas, "avas_cutree_2022-05-25-1235.shp", append = FALSE)
+# n.clusters<-dynamicTreeCut::cutreeDynamic(
+#   dendro=clusters, 
+#   minClusterSize = 15, #20
+#   distM = as.matrix(dist(z.scores)),
+#   method = "hybrid",
+#   verbose = TRUE)
+# 
+# n.clusters<-dynamicTreeCut::cutreeDynamic(
+#   dendro=clusters, 
+#   minClusterSize = 15, #20
+#   distM = as.matrix(dist(z.scores)),
+#   method = "tree",
+#   verbose = 4)
+# 
+# n.clusters.ordered<-n.clusters[order.dendrogram(clusters.dendrogram)]
+# ngroups<- unique(n.clusters) - (0 %in% n.clusters)
+# ngroups<-length(ngroups)
+# groupcolors<-rainbow(ngroups)
+# groupcolors<-c("#bf2110", "#f48843", "#FEE08B", 
+#                  #"#ABDDA4", 
+#                  "#548b49", "#3288BD") #, "#5E4FA2")
+# 
+# par(cex=.5, mar=c(2, 1, 0, 20))
+# #par(cex=.5, mar=c(20,2, 1, 0))
+# clusters.dendrogram %>% 
+#   set("labels_cex", value=.6) %>% 
+#   branches_attr_by_clusters(n.clusters.ordered, values  = groupcolors) %>% 
+#   plot(horiz=T)
+# 
+# colored_bars(colors=groupcolors[n.clusters], dend=clusters.dendrogram, horiz = T)
+# 
+# #maps
+# 
+# grouped.avas<-cbind(avas, groups) 
+# #cutree.avas<-cbind(avas, groups, n.clusters)
+# names(cutree.avas)[23]<-"cutree_groups"
+# 
+# #group.colors<-c("darkred", "darkorange", "gold", "darkolivegreen3", "navyblue")[grouped.avas$groups]
+# group.colors<-brewer.pal(n=ngroups, name="Set1")[cutree.avas$cutree_groups]
+# avas.bbox<-st_bbox(avas)
+# plot(states$geometry, xlim=avas.bbox[c(1,3)], ylim=avas.bbox[c(2,4)], border="gray")
+# plot(cutree.avas["groups"], col=group.colors, border="gray", add=TRUE)
+# 
+# st_write(obj=grouped.avas, "avas_cutree_2022-05-25-1235.shp", append = FALSE)
 
 #heatmap
-heatmap(as.matrix(z.scores), RowSideColors=groupcolors[n.clusters])
+#heatmap(as.matrix(z.scores), RowSideColors=groupcolors[n.clusters])
 
 #how do we get this dendrogram to be the same as the other one?
 #par(mar=c(20, 3, 3, 2), cex=0.5)
