@@ -30,11 +30,6 @@ avas<-geojson_sf(data.url)
 #remove ulupalakua because it's in Hawaii and prism doesn't have that in the regular dataset
 avas<-avas[-(which(avas$ava_id=="ulupalakua")), ]
 
-#calculate the area
-avas.area<-st_area(avas$geometry)
-
-#get the dates
-avas.dates<-parse_date_time(avas$created, orders=c("%Y/%m/%d"))
 
 
 # Analysis ----------------------------------------------------------------
