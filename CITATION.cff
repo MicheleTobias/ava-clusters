@@ -1,0 +1,15 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: ava-clusters
+message: >-
+  If you use this dataset, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Michele M
+    family-names: Tobias
+    email: mmtobias@ucdavis.edu
+    affiliation: University of California Davis
+    orcid: 'https://orcid.org/0000-0002-2954-8710'
